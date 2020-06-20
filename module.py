@@ -15,7 +15,7 @@ def getNewFolder(ushtrimi_i_dates):
             os.mkdir(ushtrimi_i_dates)
             break
         except FileExistsError:
-            ushtrimi_i_dates = ushtrimi_i_dates + ' ('+str(i)+')'
+             ushtrimi_i_dates = f'{ushtrimi_i_dates} ({i})'
     return ushtrimi_i_dates
 
 def genericCppFile(ushtrimi_i_dates):
