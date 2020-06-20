@@ -17,14 +17,11 @@ def getOriginalFileNameAndPath(workingDirectory):
 def changeToSourceFolder(workingDirectory, target_folder=target_folder):
     #change directory to a target folder, such as 'source'
     os.chdir(workingDirectory)
-    while True:
-        try:
-            os.chdir(target_folder)
-            workingDirectory = f'{workingDirectory}\\{target_folder}'
-            break
-        except FileNotFoundError:
-            print(f"No '{target_folder}' dircetory.")
-            break
+    try:
+        os.chdir(target_folder)
+        workingDirectory = f'{workingDirectory}\\{target_folder}'
+    except FileNotFoundError:
+        print(f"No '{target_folder}' dircetory.")
     return workingDirectory
 
 def getNewFileName(newfile):
