@@ -8,7 +8,6 @@ file_extension='.cpp'
 module_for_file_making='files.py'
 
 
-
 def getOriginalFileNameAndPath(workingDirectory):
     #returns full path to file for workspace, based on the folder name
     file_name = os.path.basename(workingDirectory)
@@ -21,10 +20,10 @@ def changeToSourceFolder(workingDirectory, target_folder=target_folder):
     while True:
         try:
             os.chdir(target_folder)
-            workingDirectory = workingDirectory + '\\' + target_folder
+            workingDirectory = f'{workingDirectory}\\{target_folder}'
             break
         except FileNotFoundError:
-            print("No '"+target_folder+"' dircetory.")
+            print(f"No '{target_folder}' dircetory.")
             break
     return workingDirectory
 
@@ -36,7 +35,7 @@ def getNewFileName(newfile):
             f.close()
             if (i==20):
                 print("Limit reached!")
-            newfile = file_name_to_save_to+str(i)+file_extension
+            newfile = f'{file_name_to_save_to}{i}{file_extension}'
         except FileNotFoundError:
             f = open(newfile,'w')
             f.close()
@@ -46,36 +45,24 @@ def getNewFileName(newfile):
 def getNewFilePath(workingDirectory):
     #returns full path to file-to-save-to
     workingDirectory = changeToSourceFolder(workingDirectory)
-    newfile = file_name_to_save_to + file_extension
+    newfile = f'{file_name_to_save_to}{file_extension}'
     newfile = getNewFileName(newfile)    
     return str(workingDirectory) + '\\' + newfile
 
-def makeSourceFolder(target_folder):
-    #create 'source' folder
-    try:
-        os.mkdir(target_folder)
-    except FileExistsError:
-        print("Folder '"+target_folder+"' already exists!")
-        
-def getNewTargetFolder(target_folder):
-    #Prompt for a different target folder
-    change_target_folder =input("would you like to specify a target folder?(y/n) ")
-    if(change_target_folder=='y'):
-        target_folder = input("Type target folder name: ")
+def compileCpp(basename):
+    CMDcommand = f'g++ "{basename}" || cmd /k'
+    os.system(str(CMDcommand))
 
-def saveContentToFile(base_file, target_file):
-    workingDirectory=os.getcwd()
+def saveContentToFile(base_file):
     save = input("Would you like to save? (y / n)")
-    if (save == 'y'):)
-        target = getNewFilePath(workingDirectory)
-        copyfile(base_file,target)
+    if (save == 'y'):
+        target_file=getNewFilePath(os.getcwd())
+        copyfile(base_file,target_file)
+
+
 
 basename=getOriginalFileNameAndPath(os.getcwd())
-changeToSourceFolder(os.getcwd())
-file_name_to_save_to=getNewFileName(file_name_to_save_to)
-file_name_to_save_to_path=getNewFilePath(os.getcwd())
-getNewTargetFolder(target_folder)
-makeSourceFolder(target_folder)
-saveContentToFile()
+compileCpp(basename)
+saveContentToFile(basename)
 
 
