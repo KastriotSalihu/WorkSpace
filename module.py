@@ -10,13 +10,13 @@ module_for_file_making='files.py'
     
 def getNewFolder(ushtrimi_i_dates):
     #create new folder
-    for i in range(1,20):
-        try:
-            os.mkdir(ushtrimi_i_dates)
-            break
-        except FileExistsError:
-             ushtrimi_i_dates = f'{ushtrimi_i_dates} ({i})'
-    return ushtrimi_i_dates
+    ushtrimi =ushtrimi_i_dates
+    i=1
+    while (os.path.isdir(ushtrimi)):
+        ushtrimi=f'{ushtrimi_i_dates} ({i})'
+        i=i+1
+    os.mkdir(ushtrimi)
+    return ushtrimi
 
 def genericCppFile(ushtrimi_i_dates):
     #open/create file and add basic c++ code
@@ -45,7 +45,7 @@ def getFormatedDateDMY(delimiter='.'):
 data = getFormatedDateDMY()
 data = getNewFolder(data)
 
-saverFilePath=os.getcwd()+'\\'+module_for_file_making
+saverFilePath=f'{os.getcwd()}\\{module_for_file_making}'
 
 os.chdir(data)
 genericCppFile(data)
